@@ -1,0 +1,23 @@
+<div class="card mb-2 p-1">
+    <div class="card-header p-1">
+        <small><strong>{{task.taskType}}</strong></small>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#myModal"  data-backdrop="static" data-keyboard="false" (click)="updateTaskComponent()"><span aria-hidden="true"><span
+                        class="fa fa-cog"></span></span></button>
+            <button type="button" class="btn btn-light btn-sm"><span aria-hidden="true"><span
+                        class="fa fa-trash-o"></span></span></button>
+        </div>
+    </div>
+    <div class="card-body">
+        <h6><span class={{classType}}>{{task.status}}</span></h6>
+        
+            <h6>{{task.task}}</h6>
+            <p>
+                <small>Start: {{parse(task.start) | date : 'short'}}</small>
+            </p>
+            <p>
+                <small>End: {{parse(task.end) | date : 'short'}}</small>
+            </p>
+        
+    </div>
+</div>

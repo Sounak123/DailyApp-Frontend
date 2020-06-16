@@ -1,0 +1,13 @@
+.top-nav {
+    background-color:#ffd24d ;
+}
+
+.top-nav h3 {
+    font-family: fantasy;
+    color: rgb(24, 15, 15);
+    text-shadow: rgba(250, 68, 68, 0.863) 1px 0 10px;
+}
+
+.dropdown-menu.pull-left {
+    left:0;
+  }

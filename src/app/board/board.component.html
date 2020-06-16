@@ -1,0 +1,122 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" (click)="previousDay()"><i class="fa fa-chevron-left"></i></a>
+      </li>
+      <li class="nav-item  active">
+        <a class="nav-link" (click)="nextDay()"><i class="fa fa-chevron-right"></i></a>
+      </li>
+      <li class="nav-item active">
+        <div class="form-check-inline">
+          <label class="form-check-label">
+            <!--ngModel in startDate 2way data binding example-->
+              Start date: <input type="date" class="form-check-input" value="{{startDate | date:'yyyy-MM-dd'}}" [(ngModel)]="startDate" (change)="getTasks()">
+          </label>
+        </div>
+      </li>
+      <li>
+        <!-- data-backdrop="static" data-keyboard="false" in modal prevent it from closing on clicking outside -->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"  data-backdrop="static" data-keyboard="false"
+          (click)="this.modalTitle='Add new task'"><i class="fa fa-plus"></i></button>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+<div class="container-fluid">
+  <div class="row row-height">
+    <div class="col-lg col-md left pt-3" *ngFor="let daysTask of daysTasks">
+      <h6>{{parse(daysTask.date) | date: 'EEEE'}}</h6>
+      <p class="lead">{{daysTask.date}}</p>
+      <hr class="my-4">
+      <ng-container *ngFor="let task of daysTask.tasks">
+        <app-task [task]="task" (populateForm)="addValueToForm($event)"></app-task>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{modalTitle}}</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="this.showMsg=false">&times;</button>
+      </div>
+      <form [formGroup]="addOrUpdateTask" (submit)="onSubmit()">
+      <!-- Modal body -->
+      <div class="modal-body">
+          <div class="row"  *ngIf="this.showMsg">
+            <div class="col-xs-12">
+              <p class="alert alert-success">
+                  <strong>Added Successfully!</strong>.
+              </p>
+            </div>
+          </div>
+          <input type="hidden" formControlName="id">
+          <div class="form-group">
+            <label for="task">Enter task:</label>
+            <input type="Text" class="form-control" placeholder="Enter task" formControlName="task" [ngClass]="{ 'is-invalid': submitted && f.task.errors }" required="required">
+            <div *ngIf="submitted && f.task.errors" class="invalid-feedback">
+              <div *ngIf="f.task.errors.required">Enter the task</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="start-date">Start from:</label>
+            <input type="datetime-local" class="form-control" placeholder="Enter date" formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" required="required">
+            <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+              <div *ngIf="f.startDate.errors.required">Enter the start date and time</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="end-date">End at:</label>
+            <input type="datetime-local" class="form-control" placeholder="Enter date" formControlName="endDate" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" required="required">
+            <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+              <div *ngIf="f.endDate.errors.required">Enter the end date and time</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="task-type">Task type:</label>
+            <select class="form-control" formControlName="taskType" [ngClass]="{ 'is-invalid': submitted && f.taskType.errors }" required="required">
+              <option [selected]>Personal</option>
+              <option>Work</option>
+              <option>Shopping</option>
+              <option>Others</option>
+            </select>
+            <div *ngIf="submitted && f.taskType.errors" class="invalid-feedback">
+              <div *ngIf="f.taskType.errors.required">Select the Task type</div>
+            </div>
+
+          </div>
+          <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" formControlName="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }" required="required">
+              <option>New</option>
+              <option>InProgress</option>
+              <option>Completed</option>
+            </select>
+            <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+              <div *ngIf="f.status.errors.required">Select the Task type</div>
+            </div>
+          </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="this.showMsg=false">Close</button>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>

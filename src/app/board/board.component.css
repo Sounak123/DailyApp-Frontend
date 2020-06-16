@@ -1,0 +1,23 @@
+.row-height {
+    height: 100vh;
+}
+
+.left {
+    background-color: rgb(228, 241, 245);
+    height: 100%;
+    overflow-y: scroll;
+    border: 1px solid black;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+* {
+  -ms-overflow-style: none !important;
+}
+
+i:hover{
+    color: rgb(250, 136, 91);
+}
